@@ -332,6 +332,23 @@ configure_file("${PROJECT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
 add_custom_target(uninstall
   "${CMAKE_COMMAND}" -P "${PROJECT_BINARY_DIR}/cmake/cmake_uninstall.cmake")
 
+
+#################################################################################
+# Package source code
+#################################################################################
+set(CPACK_PACKAGE_VERSION_MAJOR "${VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${VERSION_PATCH}")
+set(CPACK_SOURCE_GENERATOR "TBZ2")
+set(CPACK_SOURCE_PACKAGE_FILE_NAME
+  "${CMAKE_PROJECT_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+set(CPACK_SOURCE_IGNORE_FILES
+  "/build/;/.git/;/autom4te.cache/;~$;${CPACK_SOURCE_IGNORE_FILES}")
+include(CPack)
+# Alias for 'make dist'
+add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
+
+
 #################################################################################
 # DEBUG settings - TODO: make a summary
 
